@@ -6,17 +6,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
+<FrameLayout
+    android:layout_gravity="center_horizontal"
+    android:layout_width="400dp"
+    android:layout_height="wrap_content">
     <LinearLayout
         android:layout_margin="20dp"
         android:padding="10dp"
         android:layout_width="400dp"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-
         android:gravity="center"
         android:orientation="vertical">
-
         <ImageView
             android:id="@+id/item_image_d"
             android:layout_width="120dp"
@@ -36,14 +37,14 @@
             android:textSize="15dp" />
 
         <LinearLayout
-            android:layout_gravity="center"
-            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:weightSum="3">
 
             <LinearLayout
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:id="@+id/layout_kg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -70,7 +71,6 @@
 
                 <ImageButton
                     android:id="@+id/minus_button_kg"
-
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
@@ -83,14 +83,14 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:text="Kg" />
-<TextView
-    android:layout_margin="4dp"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text=" = Rs."/>
+                <TextView
+                    android:layout_margin="4dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" = Rs."/>
                 <TextView
                     android:id="@+id/text_kg_value"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:text="0" />
@@ -155,8 +155,10 @@
             </LinearLayout>
 
             <LinearLayout
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:id="@+id/layout_pcs"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="horizontal">
@@ -201,39 +203,37 @@
                     android:text=" = Rs."/>
                 <TextView
                     android:id="@+id/text_pcs_value"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:text="0" />
             </LinearLayout>
         </LinearLayout>
-<LinearLayout
-    android:weightSum="2"
-    android:layout_width="match_parent"
-    android:orientation="horizontal"
-    android:layout_height="wrap_content">
+        <LinearLayout
+            android:weightSum="2"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
 
-    <TextView
+            <TextView
 
-        android:gravity="right|center"
-        android:layout_weight="1"
-    android:layout_margin="4dp"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="Total = Rs."/>
-    <TextView
-        android:layout_weight="1"
-        android:id="@+id/total"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:gravity="left|center"
-        android:padding="0dp"
-        android:text="0"
-        android:textColor="#000000" />
-</LinearLayout>
-
-
+                android:gravity="right|center"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Total = Rs."/>
+            <TextView
+                android:layout_weight="1"
+                android:id="@+id/total"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:gravity="left|center"
+                android:padding="0dp"
+                android:text="0"
+                android:textColor="#000000" />
+        </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -260,4 +260,6 @@
                 android:text="buy now" />
         </LinearLayout>
     </LinearLayout>
+</FrameLayout>
+
 </androidx.cardview.widget.CardView>

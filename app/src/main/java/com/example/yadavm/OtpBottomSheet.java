@@ -130,7 +130,7 @@ public class OtpBottomSheet extends BottomSheetDialogFragment {
 
                         if (task.isSuccessful()) {
 
-                            UserMo userMo = new UserMo(name,password,"+91"+phone,address,"null");
+                            UserMo userMo = new UserMo(name,password,"+91"+phone,address,"https://firebasestorage.googleapis.com/v0/b/yadav-da33e.appspot.com/o/Group%201.svg?alt=media&token=863c7251-8bc8-4923-8b9e-711e4ff3239b");
 
                             reference.child("User").child("+91"+phone).setValue(userMo);
 

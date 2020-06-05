@@ -13,9 +13,11 @@
         android:layout_height="?attr/actionBarSize">
 
 <androidx.appcompat.widget.SearchView
+    android:layout_marginRight="15dp"
+    android:background="@drawable/search_background"
     app:queryHint="Find Your Sweets"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="30dp"
     android:id="@+id/search"/>
     </androidx.appcompat.widget.Toolbar>
     <androidx.recyclerview.widget.RecyclerView

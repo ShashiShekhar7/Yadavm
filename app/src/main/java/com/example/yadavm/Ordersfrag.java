@@ -2,6 +2,13 @@ package com.example.yadavm;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
@@ -9,17 +16,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
-import com.example.yadavm.Adapters.HomeAd;
 import com.example.yadavm.Adapters.OrderAd;
 import com.example.yadavm.Models.OrderMo;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,20 +28,19 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class Ordersfrag extends Fragment {
-    private Toolbar toolbar;
     FirebaseDatabase database;
     DatabaseReference reference;
 
-    private RecyclerView recyclerView;
     private OrderAd orderAd;
     private List<OrderMo> orderMos;
+    RecyclerView recyclerView;
 
-
-    private TextView textViewnothing;
-
+    FirebaseAuth firebaseAuth;
+    FirebaseUser user;
     public Ordersfrag() {
 
     }
@@ -53,37 +52,32 @@ public class Ordersfrag extends Fragment {
 
 
         View view = inflater.inflate(R.layout.fragment_ordersfrag, container, false);
-        toolbar = view.findViewById(R.id.toolbar);
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
         toolbar.setTitle("");
 
-        ((MainActivity)getActivity()).setSupportActionBar(toolbar);
+        ((MainActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
         setHasOptionsMenu(true);
 
+        firebaseAuth = FirebaseAuth.getInstance();
+        user = firebaseAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
-        reference = database.getReference().child("My Orders");
+        reference = database.getReference().child("User").child(Objects.requireNonNull(user.getPhoneNumber())).child("My Orders");
 
 
-
-
-
-        //textViewnothing = (TextView)view.findViewById(R.id.text_nothing_in_order);
-
-        recyclerView  = (RecyclerView)view.findViewById(R.id.recycler_order);
-
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_order);
         recyclerView.setHasFixedSize(true);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         orderMos = new ArrayList<>();
 
-        orderAd = new OrderAd(getContext(),orderMos);
-        recyclerView.setAdapter(orderAd);
+
 
 
         readPost();
         return view;
     }
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_toolbar,menu);
     }
@@ -92,19 +86,27 @@ public class Ordersfrag extends Fragment {
         reference.orderByChild("orderStatus").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (isAdded()){
+                    if (dataSnapshot.exists()){
+                        orderMos = new ArrayList<>();
 
-                    orderMos.clear();
-                    for (DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
-                        OrderMo shopmodal = dataSnapshot1.getValue(OrderMo.class);
-                        orderMos.add(shopmodal);
-orderAd.notifyDataSetChanged();
+                        for (DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
+                            orderMos.add(dataSnapshot1.getValue(OrderMo.class));
 
+
+                        }
+                        orderAd = new OrderAd(getContext(),orderMos);
+                        recyclerView.setAdapter(orderAd);
+                    }
                 }
+
+
 
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getContext(), databaseError.toString(), Toast.LENGTH_SHORT).show();
 
             }
         });

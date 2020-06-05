@@ -39,7 +39,7 @@ public class Search extends AppCompatActivity {
 
 
 
-        reference = FirebaseDatabase.getInstance()  .getReference().child("Sweets");
+        reference = FirebaseDatabase.getInstance().getReference().child("Sweets");
 
 
         recyclerView = findViewById(R.id.recycler_search);

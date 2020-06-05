@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/order_id"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ORDER #17625439"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:textSize="20dp"/>
+        <TextView
+            android:id="@+id/status_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delivering to"
+            android:layout_gravity="center"
+            android:textColor="#000000"/>
+        <TextView
+            android:gravity="center_horizontal"
+            android:id="@+id/text_address"
+            android:layout_margin="5dp"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="S-17/286 Nadesar,Varanasi 221002"
+            android:maxLines="2"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#acacac"
+            android:layout_marginTop="5dp"/>
+        <LinearLayout
+            android:padding="5dp"
+            android:weightSum="2"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Item Total"/>
+            <TextView
+                android:gravity="right"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Rs 410"/>
+        </LinearLayout>
+        <LinearLayout
+            android:padding="5dp"
+            android:weightSum="2"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Delivery Charges"/>
+            <TextView
+                android:gravity="right"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Rs 20"/>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000000"/>
+        <TextView
+            android:layout_margin="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Total Rs 430"
+            android:gravity="right"/>
+        <Button
+            android:id="@+id/button_confirm"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:textColor="#D24C0F"
+            android:text="place order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/back_place_button"
+            />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

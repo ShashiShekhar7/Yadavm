@@ -1,18 +1,11 @@
 package com.example.yadavm;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,18 +16,21 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
 import com.bumptech.glide.Glide;
 import com.example.yadavm.Models.SuggestMo;
 import com.example.yadavm.Models.UserMo;
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -53,49 +49,33 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-
+import java.util.Objects;
 import de.hdodenhof.circleimageview.CircleImageView;
-
 import static android.app.Activity.RESULT_OK;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class Profile extends Fragment {
-private Toolbar toolbar;
+
 
 private FirebaseAuth firebaseAuth;
 DatabaseReference reference;
-
-    private StorageReference mStorageReference;
-
-
+private StorageReference mStorageReference;
 TextView textViewName,textViewPhone,textViewAddress,textViewAbout;
 Button buttonLogOut;
-
 String name,phone;
 ImageButton imageButtonAdd;
-
 ProgressDialog progressDialog;
-
-    CircleImageView imageViewUploadItem;
-
-    private Uri mItemImageUri;
-
-    ImageButton imageButtonName,imageButtonAddress,imageButtonSuggestion;
-
-    EditText editTextSuggestion;
-
-    Context context;
-    FirebaseUser user;
+CircleImageView imageViewUploadItem;
+ImageButton imageButtonAddress,imageButtonSuggestion;
+EditText editTextSuggestion;
+FirebaseUser user;
 LinearLayout linearLayout;
+
     public Profile() {
-        // Required empty public constructor
+
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_toolbar,menu);
     }
@@ -126,7 +106,7 @@ LinearLayout linearLayout;
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:9452251055"));
+                intent.setData(Uri.parse("tel:+919452251055"));
                 startActivity(intent);
             }
         });
@@ -145,28 +125,41 @@ LinearLayout linearLayout;
 
         imageViewUploadItem = (CircleImageView)view.findViewById(R.id.image_view_profile);
 
-        imageButtonName = view.findViewById(R.id.edit_name);
-        imageButtonName.setOnClickListener(new View.OnClickListener() {
+        textViewName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MainActivity activity = (MainActivity) (getContext());
+                assert activity != null;
                 FragmentManager fm = activity.getSupportFragmentManager();
                 DialogUpdateName alertDialog = new DialogUpdateName();
-
-                Bundle args = new Bundle();
-
                 alertDialog.show(fm, "fragment_alert");
             }
         });
+//        imageButtonName = view.findViewById(R.id.edit_name);
+//        imageButtonName.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                MainActivity activity = (MainActivity) (getContext());
+//                assert activity != null;
+//                FragmentManager fm = activity.getSupportFragmentManager();
+//                DialogUpdateName alertDialog = new DialogUpdateName();
+//
+//
+//
+//                alertDialog.show(fm, "fragment_alert");
+//            }
+//        });
+
         imageButtonAddress = view.findViewById(R.id.edit_address);
         imageButtonAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MainActivity activity = (MainActivity) (getContext());
+                assert activity != null;
                 FragmentManager fm = activity.getSupportFragmentManager();
                 DialogUpdate alertDialog = new DialogUpdate();
 
-                Bundle args = new Bundle();
+
 
                 alertDialog.show(fm, "fragment_alert");
             }
@@ -198,7 +191,7 @@ LinearLayout linearLayout;
                 CropImage.activity()
                         .setAspectRatio(1,1)
                         .setGuidelines(CropImageView.Guidelines.ON)
-                        .start(getContext(), Profile.this);
+                        .start(Objects.requireNonNull(getContext()), Profile.this);
 
 
             }
@@ -213,15 +206,15 @@ LinearLayout linearLayout;
                 firebaseAuth.signOut();
                 Intent intent = new Intent(getActivity(),Login.class);
                 startActivity(intent);
-                getActivity().finish();
+                Objects.requireNonNull(getActivity()).finish();
             }
         });
 
 
-        toolbar = view.findViewById(R.id.toolbar);
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
         toolbar.setTitle("");
 
-        ((MainActivity)getActivity()).setSupportActionBar(toolbar);
+        ((MainActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
         setHasOptionsMenu(true);
         return view;
     }
@@ -244,35 +237,34 @@ LinearLayout linearLayout;
         super.onStart();
          user = firebaseAuth.getCurrentUser();
 
-        if (user != null){
-           reference.child("User").child(user.getPhoneNumber()).addValueEventListener(new ValueEventListener() {
-               @Override
-               public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                   if (isAdded()){
-                       UserMo userMo = dataSnapshot.getValue(UserMo.class);
-                       name = userMo.getName();
-                       phone = userMo.getPhone();
-                       textViewName.setText(name);
-                       textViewPhone.setText(phone);
-                       textViewAddress.setText(userMo.getAddress());
+        if (user != null)
+            reference.child("User").child(Objects.requireNonNull(user.getPhoneNumber())).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (isAdded()) {
+                        UserMo userMo = dataSnapshot.getValue(UserMo.class);
+                        name = userMo.getName();
+                        phone = userMo.getPhone();
+                        textViewName.setText(name);
+                        textViewPhone.setText(phone);
+                        textViewAddress.setText(userMo.getAddress());
 
-                       String image = userMo.getProfilepic();
-                       if (image != null){
-                           Glide.with(getContext())
-                                   .load(image)
-                                   .into(imageViewUploadItem);
-                       }
-                   }
+                        String image = userMo.getProfilepic();
+                        if (image != null) {
+                            Glide.with(getContext())
+                                    .load(image)
+                                    .into(imageViewUploadItem);
+                        }
 
-               }
+                    }
 
-               @Override
-               public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
 
-               }
-           });
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-        }
+                }
+            });
 
     }
 
@@ -282,12 +274,12 @@ LinearLayout linearLayout;
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
-                mItemImageUri = result.getUri();
+                Uri mItemImageUri = result.getUri();
                 //Toast.makeText(getContext(), mItemImageUri.toString(), Toast.LENGTH_SHORT).show();
 
                 imageViewUploadItem.setImageURI(mItemImageUri);
                 try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getApplicationContext().getContentResolver(),mItemImageUri);
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getApplicationContext().getContentResolver(), mItemImageUri);
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
                     bitmap.compress(Bitmap.CompressFormat.JPEG,25,baos);

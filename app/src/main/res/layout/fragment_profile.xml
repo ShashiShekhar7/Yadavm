@@ -13,7 +13,6 @@
 <include
     layout="@layout/layout_profile"/>
     <ScrollView
-        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
@@ -29,7 +28,7 @@
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="100dp">
                     <ImageView
                         android:src="@drawable/ic_contact"
                         android:layout_width="wrap_content"
@@ -72,7 +71,7 @@
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="100dp">
                     <ImageView
                         android:src="@drawable/ic_mode_comment"
                         android:layout_width="wrap_content"
@@ -89,14 +88,13 @@
                         android:hint="Suggestion..."
                         android:layout_width="150dp"
                         android:background="@drawable/edit_text_box"
-                        android:layout_height="100dp"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"/>
                     <FrameLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent">
 
                         <ImageButton
-                            android:layout_marginLeft="20dp"
                             android:id="@+id/send_suggestion"
                             android:layout_width="25dp"
                             android:layout_height="match_parent"
@@ -112,32 +110,26 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <LinearLayout
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:id="@+id/support"
                     android:layout_margin="5dp"
                     android:weightSum="2"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-                    <FrameLayout
-                        android:paddingRight="20dp"
-                        android:layout_weight="1"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-                        <ImageButton
+                    <ImageButton
                             android:background="@android:color/transparent"
                             android:layout_gravity="right|center"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:src="@drawable/ic_headset"/>
-                    </FrameLayout>
                     <LinearLayout
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:layout_weight="1"
                         android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
                         <TextView
+                            android:layout_marginLeft="15dp"
                             android:textSize="10dp"
                             android:textAlignment="center"
                             android:layout_gravity="left|center"
@@ -154,7 +146,10 @@
                     </LinearLayout>
                 </LinearLayout>
                 <Button
-                    android:layout_margin="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="5dp"
                     android:text="Log out"
                     android:id="@+id/logout"
                     android:layout_width="match_parent"
@@ -169,7 +164,7 @@
                 android:textStyle="bold"
                 android:textColor="@color/colorAccent"
                 android:layout_gravity="center"
-                android:layout_margin="15dp"/>
+                android:layout_margin="5dp"/>
         </LinearLayout>
     </ScrollView>
 

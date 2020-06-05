@@ -17,6 +17,8 @@ import com.bumptech.glide.Glide;
 import com.example.yadavm.Models.CartMo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -42,6 +44,9 @@ public Button buttonAddtocart;
 
 public ProgressDialog dialog;
 
+FirebaseAuth firebaseAuth;
+FirebaseUser user;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -52,6 +57,8 @@ public ProgressDialog dialog;
         dialog = new ProgressDialog(getActivity());
 
 
+        firebaseAuth = FirebaseAuth.getInstance();
+        user = firebaseAuth.getCurrentUser();
         database =FirebaseDatabase.getInstance();
         reference = database.getReference();
 
@@ -211,7 +218,7 @@ buttonAddtocart = view.findViewById(R.id.add_to_cart_button);
                 cartMo.setItemQuantitypcs(textViewpcs.getText().toString().trim());
 
                 dialog.show();
-                reference.child("Carts").child(itemid).setValue(cartMo)
+                reference.child("User").child(user.getPhoneNumber()).child("Carts").child(itemid).setValue(cartMo)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {

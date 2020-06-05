@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -61,6 +62,7 @@ public class DialogPlaceButton extends DialogFragment {
     FirebaseAuth firebaseAuth;
     FirebaseUser user;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -82,7 +84,7 @@ public class DialogPlaceButton extends DialogFragment {
         Random rnd = new Random();
         orderidint = 100000 + rnd.nextInt(900000);
 
-        orderId.setText(String.valueOf("ORDER ID"+orderidint));
+        orderId.setText(String.valueOf("ORDER ID#"+orderidint));
 
 
         orderAddress = view.findViewById(R.id.text_address);
@@ -99,8 +101,7 @@ public class DialogPlaceButton extends DialogFragment {
        recyclerView.setHasFixedSize(true);
        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-//       cartMoList = new ArrayList<>();
-//       cartPlaceButtonAd = new CartPlaceButtonAd(cartMoList);
+
 
         readPost();
        buttonConfirm = view.findViewById(R.id.button_confirm_plce);
@@ -124,9 +125,9 @@ public class DialogPlaceButton extends DialogFragment {
                orderMo.setOrderTime(dateFormattime.format(new Date()));
                orderMo.setOrderDate(dateFormatdate.format(new Date()));
 
-               reference.child("My Orders").child(String.valueOf(orderidint)).setValue(orderMo);
+               reference.child("User").child(user.getPhoneNumber()).child("My Orders").child(String.valueOf(orderidint)).setValue(orderMo);
 
-               reference.child("Carts").removeValue();
+               reference.child("User").child(user.getPhoneNumber()).child("Carts").removeValue();
 
 
                getDialog().dismiss();
@@ -134,7 +135,7 @@ public class DialogPlaceButton extends DialogFragment {
        });
 
 
-       reference.child("Carts").addValueEventListener(new ValueEventListener() {
+       reference.child("User").child(user.getPhoneNumber()).child("Carts").addValueEventListener(new ValueEventListener() {
            @Override
            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                String items="";
@@ -150,26 +151,23 @@ public class DialogPlaceButton extends DialogFragment {
 
            @Override
            public void onCancelled(@NonNull DatabaseError databaseError) {
-
+               Toast.makeText(getContext(), databaseError.toString(), Toast.LENGTH_SHORT).show();
            }
        });
        reference.child("User").child(user.getPhoneNumber()).addValueEventListener(new ValueEventListener() {
            @Override
            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                UserMo userMo = dataSnapshot.getValue(UserMo.class);
-
-
                String orderaddress = userMo.getAddress();
                orderAddress.setText(orderaddress);
-
            }
-
            @Override
            public void onCancelled(@NonNull DatabaseError databaseError) {
+               Toast.makeText(getContext(), databaseError.toString(), Toast.LENGTH_SHORT).show();
 
            }
        });
-        reference.child("Carts").addValueEventListener(new ValueEventListener() {
+        reference.child("User").child(user.getPhoneNumber()).child("Carts").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 int sum = 0;
@@ -203,6 +201,7 @@ public class DialogPlaceButton extends DialogFragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getContext(), databaseError.toString(), Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -212,9 +211,10 @@ public class DialogPlaceButton extends DialogFragment {
 
 
 
+
     private void readPost(){
         reference.keepSynced(true);
-        reference.child("Carts").addValueEventListener(new ValueEventListener() {
+        reference.child("User").child(user.getPhoneNumber()).child("Carts").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                if (isAdded()){
@@ -238,6 +238,7 @@ public class DialogPlaceButton extends DialogFragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getContext(), databaseError.toString(), Toast.LENGTH_SHORT).show();
 
             }
 
@@ -247,6 +248,5 @@ public class DialogPlaceButton extends DialogFragment {
 
 
     }
-
 
 }
